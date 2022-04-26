@@ -1,16 +1,8 @@
-# sejuta
+# Project Tugas Akhir SEJUTA
+## Kelompok 5 TIF B Semester 4
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Vasyilla Kautsar Al Fitra Yudha_E41200512
+2. Luki Dwi Prasanti_E41201157
+3. Hairul Bahri_E41200983
+4. Achmad Taufiq Hidayat_E41200710
+5. Misbachur Rohmatul Isnaini_E41200718
