@@ -78,6 +78,48 @@ class _berandaState extends State<beranda> {
                 style: defaultText.headline5?.apply(color: color_font),
               ),
             ),
+            SizedBox(
+              height: 10,
+            ),
+            Card(
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                      padding: EdgeInsets.only(
+                          top: 0.0, bottom: 0.0, left: 15, right: 5)),
+                  TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Kemeja",
+                      style: defaultText.subtitle1,
+                    ),
+                  ),
+                  SizedBox(width: 50),
+                  TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        "Kaos",
+                        style: defaultText.subtitle1,
+                      )),
+                  SizedBox(width: 50),
+                  TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        "Celana",
+                        style: defaultText.subtitle1,
+                      )),
+                  SizedBox(width: 50),
+                  TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        "Jaket",
+                        style: defaultText.subtitle1,
+                      ))
+                ],
+              ),
+            ),
+            //kita panggil listview disini
+            
           ],
         ),
       ),
