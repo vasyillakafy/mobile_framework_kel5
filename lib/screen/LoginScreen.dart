@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Container(
                             height: 166,
                             width: 250,
-                            child: Image.asset('images/iLogin.png'),
+                            child: Image.asset('assets/images/iLogin.png'),
                           ),
                         ),
                         SizedBox(
@@ -309,7 +309,7 @@ class _LoginScreenState extends State<LoginScreen> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
         ),
-        child: Image.asset('images/google.png'),
+        child: Image.asset('assets/images/google.png'),
       ),
     );
   }

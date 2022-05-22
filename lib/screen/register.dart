@@ -46,7 +46,7 @@ class _registerState extends State<register> {
                           child: Container(
                             height: 166,
                             width: 250,
-                            child: Image.asset('images/register.png'),
+                            child: Image.asset('assets/images/register.png'),
                           ),
                         ),
                         Text(
@@ -278,7 +278,7 @@ class _registerState extends State<register> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
         ),
-        child: Image.asset('images/google.png'),
+        child: Image.asset('assets/images/google.png'),
       ),
     );
   }

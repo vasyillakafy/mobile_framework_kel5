@@ -32,7 +32,7 @@ class _SplashScreen extends State<SplashScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Image.asset("images/logoSplas.png"),
+          Image.asset("assets/images/logoSplas.png"),
           SizedBox(
             height: 24.0,
           ),

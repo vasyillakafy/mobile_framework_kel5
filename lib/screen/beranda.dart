@@ -1,7 +1,10 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:sejuta/config/constants.dart';
 import 'package:sejuta/config/palete.dart';
+import 'package:sejuta/screen/daftarbarang_sejuta.dart';
+
 
 class beranda extends StatefulWidget {
   @override
@@ -14,8 +17,8 @@ class _berandaState extends State<beranda> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
+          //crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 10),
             Row(
@@ -67,8 +70,9 @@ class _berandaState extends State<beranda> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                hintText: "Cari Kota",
+                hintText: "Ketik Untuk Mencari",
                 hintStyle: defaultText.headline6?.apply(color: color_font),
+                
               ),
             ),
             SizedBox(height: 25),
@@ -94,21 +98,21 @@ class _berandaState extends State<beranda> {
                       style: defaultText.subtitle1,
                     ),
                   ),
-                  SizedBox(width: 50),
+                  SizedBox(width: 10),
                   TextButton(
                       onPressed: () {},
                       child: Text(
                         "Kaos",
                         style: defaultText.subtitle1,
                       )),
-                  SizedBox(width: 50),
+                  SizedBox(width: 10),
                   TextButton(
                       onPressed: () {},
                       child: Text(
                         "Celana",
                         style: defaultText.subtitle1,
                       )),
-                  SizedBox(width: 50),
+                  SizedBox(width: 10),
                   TextButton(
                       onPressed: () {},
                       child: Text(
@@ -118,8 +122,13 @@ class _berandaState extends State<beranda> {
                 ],
               ),
             ),
+
             //kita panggil listview disini
-            
+
+            AspectRatio(
+              aspectRatio: 3 / 4,
+              child: ListBarangUm(),
+            )
           ],
         ),
       ),
