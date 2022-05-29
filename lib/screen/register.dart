@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:sejuta/config/palete.dart';
 import 'package:sejuta/config/constants.dart';
 import 'package:sejuta/screen/LoginScreen.dart';
+import 'package:http/http.dart' as http;
+import 'package:sejuta/screen/bottom_nav_bar.dart';
 
 class register extends StatefulWidget {
   @override
@@ -11,6 +13,64 @@ class register extends StatefulWidget {
 }
 
 class _registerState extends State<register> {
+  TextEditingController c_nama = new TextEditingController();
+  TextEditingController c_email = new TextEditingController();
+  TextEditingController c_alamat = new TextEditingController();
+  TextEditingController c_nohp = new TextEditingController();
+  TextEditingController c_foto = new TextEditingController();
+  TextEditingController c_password = new TextEditingController();
+  TextEditingController c_conpassword = new TextEditingController();
+
+  // String foto = "1.jpg";
+  // void register() {
+  //   var url = 'http://192.168.0.2:8000/api/register';
+
+  //   http.post(Uri.parse(url), body: {
+  //     // "id_kategori": controllerIdKat.text,
+  //     "nama": c_nama.text,
+  //     "email": c_email.text,
+  //     "no_hp": c_nohp.text,
+  //     "password": c_password.text,
+  //     "alamat": c_alamat.text,
+  //     "foto": c_foto.text
+  //   });
+  // }
+  String foto = "1.jpg";
+  Future<void> register() async {
+    if (c_nama.text.isNotEmpty &&
+        c_email.text.isNotEmpty &&
+        c_password.text.isNotEmpty &&
+        c_conpassword.text.isNotEmpty &&
+        c_alamat.text.isNotEmpty) {
+      var response =
+          await http.post(Uri.parse("http://192.168.0.2:8000/api/register"),
+              body: ({
+                'nama': c_nama.text,
+                'alamat': c_alamat.text,
+                'email': c_email.text,
+                'password': c_password.text,
+                'foto': foto
+              }));
+
+      if (c_password.text == c_conpassword.text) {
+        if (response.statusCode == 200) {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => BottomNav()));
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(
+                  "Pastikan email dan password sudah terisi dengan benar")));
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Password dan ConfirmPassword TIDAK COCOK")));
+      }
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Inputan tidak boleh kosong")));
+    }
+  }
+
   bool rememberpwd = false;
   bool sec = true;
   var visable = Icon(
@@ -61,6 +121,14 @@ class _registerState extends State<register> {
                         ),
                         SizedBox(
                           height: 40,
+                        ),
+                        nama(),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        alamat(),
+                        SizedBox(
+                          height: 30,
                         ),
                         buildEmail(),
                         SizedBox(
@@ -122,6 +190,84 @@ class _registerState extends State<register> {
     );
   }
 
+  Widget nama() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 60,
+            alignment: Alignment.centerLeft,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: color_font,
+                    blurRadius: 6,
+                    offset: Offset(0, 2),
+                  )
+                ]),
+            child: TextField(
+              controller: c_nama,
+              keyboardType: TextInputType.name,
+              style: TextStyle(color: color_font),
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.only(top: 14),
+                  prefixIcon: Icon(
+                    Icons.people,
+                    color: color_font,
+                  ),
+                  hintText: 'Masukkan nama lengkap',
+                  hintStyle: defaultText.subtitle1?.apply(color: color_font)),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget alamat() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 60,
+            alignment: Alignment.centerLeft,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: color_font,
+                    blurRadius: 6,
+                    offset: Offset(0, 2),
+                  )
+                ]),
+            child: TextField(
+              controller: c_alamat,
+              keyboardType: TextInputType.name,
+              style: TextStyle(color: color_font),
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.only(top: 14),
+                  prefixIcon: Icon(
+                    Icons.location_on,
+                    color: color_font,
+                  ),
+                  hintText: 'Masukkan alamat lengkap anda',
+                  hintStyle: defaultText.subtitle1?.apply(color: color_font)),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget buildEmail() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -142,6 +288,7 @@ class _registerState extends State<register> {
                   )
                 ]),
             child: TextField(
+              controller: c_email,
               keyboardType: TextInputType.emailAddress,
               style: TextStyle(color: color_font),
               decoration: InputDecoration(
@@ -178,6 +325,7 @@ class _registerState extends State<register> {
             ),
             height: 60,
             child: TextField(
+              controller: c_password,
               obscureText: sec,
               style: TextStyle(color: color_font),
               decoration: InputDecoration(
@@ -222,6 +370,7 @@ class _registerState extends State<register> {
             ),
             height: 60,
             child: TextField(
+              controller: c_conpassword,
               obscureText: sec,
               style: TextStyle(color: color_font),
               decoration: InputDecoration(
@@ -254,7 +403,9 @@ class _registerState extends State<register> {
       child: Container(
         width: double.infinity,
         child: RaisedButton(
-          onPressed: () {},
+          onPressed: () {
+            register();
+          },
           elevation: 5,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
