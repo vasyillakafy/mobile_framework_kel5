@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import '../config/constants.dart';
-import '../config/palete.dart';
+import 'dart:ui';
+import 'package:flutter/rendering.dart';
+import 'package:sejuta/config/constants.dart';
+import 'package:sejuta/config/palete.dart';
 
 class profil extends StatefulWidget {
   @override
@@ -13,8 +15,7 @@ class _profilState extends State<profil> {
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 30.0),
-        child: Column(
-          // crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: [
             SizedBox(height: 10),
             Row(
@@ -58,7 +59,6 @@ class _profilState extends State<profil> {
                 ),
               ],
             ),
-            SizedBox(height: 10.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -90,239 +90,172 @@ class _profilState extends State<profil> {
                 ),
               ],
             ),
-            SizedBox(height: 30),
-            buildNama(),
-            SizedBox(height: 15),
-            buildEmail(),
-            SizedBox(height: 15),
-            buildPassword(),
-            SizedBox(height: 15),
-            buildNohp(),
-            SizedBox(height: 15),
-            buildAlamat(),
-            SizedBox(height: 30),
-            buildSimpanButton(),
+            SizedBox(height: 30.0),
+            Container(
+              height: 50,
+              alignment: Alignment.centerLeft,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(5),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade300,
+                      blurRadius: 1,
+                      offset: Offset(0, 2),
+                    )
+                  ]),
+              child: TextFormField(
+                keyboardType: TextInputType.text,
+                style: TextStyle(color: color_font),
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.only(top: 14),
+                    prefixIcon: Icon(
+                      Icons.account_box_outlined,
+                      color: color_font,
+                    ),
+                    hintText: 'Nama Lengkap',
+                    hintStyle: defaultText.subtitle1
+                        ?.apply(color: Colors.grey.shade500)),
+              ),
+            ),
+            SizedBox(height: 15.0),
+            Container(
+              height: 50,
+              alignment: Alignment.centerLeft,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(5),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade300,
+                      blurRadius: 1,
+                      offset: Offset(0, 2),
+                    )
+                  ]),
+              child: TextField(
+                keyboardType: TextInputType.emailAddress,
+                style: TextStyle(color: color_font),
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.only(top: 14),
+                    prefixIcon: Icon(
+                      Icons.email_outlined,
+                      color: color_font,
+                    ),
+                    hintText: 'abcdef@example.com',
+                    hintStyle: defaultText.subtitle1
+                        ?.apply(color: Colors.grey.shade500)),
+              ),
+            ),
+            SizedBox(height: 15.0),
+            Container(
+              alignment: Alignment.centerLeft,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(5),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey.shade300,
+                      blurRadius: 1,
+                      offset: Offset(0, 2))
+                ],
+              ),
+              height: 50,
+              child: TextField(
+                obscureText: true,
+                style: TextStyle(color: color_font),
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.only(top: 14),
+                    prefixIcon: Icon(
+                      Icons.vpn_key,
+                      color: color_font,
+                    ),
+                    hintText: "Password",
+                    hintStyle: defaultText.subtitle1
+                        ?.apply(color: Colors.grey.shade500)),
+              ),
+            ),
+            SizedBox(height: 15.0),
+            Container(
+              height: 50,
+              alignment: Alignment.centerLeft,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(5),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade300,
+                      blurRadius: 1,
+                      offset: Offset(0, 2),
+                    )
+                  ]),
+              child: TextField(
+                keyboardType: TextInputType.text,
+                style: TextStyle(color: color_font),
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.only(top: 14),
+                    prefixIcon: Icon(
+                      Icons.phone,
+                      color: color_font,
+                    ),
+                    hintText: '08xxxxxxxxx',
+                    hintStyle: defaultText.subtitle1
+                        ?.apply(color: Colors.grey.shade500)),
+              ),
+            ),
+            SizedBox(height: 15.0),
+            Container(
+              height: 50,
+              alignment: Alignment.centerLeft,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(5),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade300,
+                      blurRadius: 1,
+                      offset: Offset(0, 2),
+                    )
+                  ]),
+              child: TextField(
+                keyboardType: TextInputType.text,
+                style: TextStyle(color: color_font),
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.only(top: 14),
+                    prefixIcon: Icon(
+                      Icons.location_on_outlined,
+                      color: color_font,
+                    ),
+                    hintText: 'Alamat Lengkap',
+                    hintStyle: defaultText.subtitle1
+                        ?.apply(color: Colors.grey.shade500)),
+              ),
+            ),
+            SizedBox(height: 25.0),
+            Container(
+              width: 150,
+              child: RaisedButton(
+                onPressed: () {},
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                color: color_font,
+                padding: EdgeInsets.all(20),
+                child: Text(
+                  "Simpan",
+                  style: defaultText.headline5?.apply(color: Colors.white),
+                ),
+              ),
+            ),
           ],
         ),
       ),
-      backgroundColor: Color_background,
-    );
-  }
-
-  Widget buildEmail() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 50,
-            alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(5),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.shade300,
-                    blurRadius: 1,
-                    offset: Offset(0, 2),
-                  )
-                ]),
-            child: TextField(
-              keyboardType: TextInputType.emailAddress,
-              style: TextStyle(color: color_font),
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.only(top: 14),
-                  prefixIcon: Icon(
-                    Icons.email_outlined,
-                    color: color_font,
-                  ),
-                  hintText: 'abcdef@example.com',
-                  hintStyle: defaultText.subtitle1
-                      ?.apply(color: Colors.grey.shade500)),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildNama() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 50,
-            alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(5),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.shade300,
-                    blurRadius: 1,
-                    offset: Offset(0, 2),
-                  )
-                ]),
-            child: TextField(
-              keyboardType: TextInputType.text,
-              style: TextStyle(color: color_font),
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.only(top: 14),
-                  prefixIcon: Icon(
-                    Icons.account_box_outlined,
-                    color: color_font,
-                  ),
-                  hintText: 'Nama Lengkap',
-                  hintStyle: defaultText.subtitle1
-                      ?.apply(color: Colors.grey.shade500)),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildPassword() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(5),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.grey.shade300,
-                    blurRadius: 1,
-                    offset: Offset(0, 2))
-              ],
-            ),
-            height: 50,
-            child: TextField(
-              obscureText: true,
-              style: TextStyle(color: color_font),
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.only(top: 14),
-                  prefixIcon: Icon(
-                    Icons.vpn_key,
-                    color: color_font,
-                  ),
-                  hintText: "Password",
-                  hintStyle: defaultText.subtitle1
-                      ?.apply(color: Colors.grey.shade500)),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget buildNohp() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 50,
-            alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(5),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.shade300,
-                    blurRadius: 1,
-                    offset: Offset(0, 2),
-                  )
-                ]),
-            child: TextField(
-              keyboardType: TextInputType.text,
-              style: TextStyle(color: color_font),
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.only(top: 14),
-                  prefixIcon: Icon(
-                    Icons.phone,
-                    color: color_font,
-                  ),
-                  hintText: '08xxxxxxxxx',
-                  hintStyle: defaultText.subtitle1
-                      ?.apply(color: Colors.grey.shade500)),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildAlamat() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 50,
-            alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(5),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.shade300,
-                    blurRadius: 1,
-                    offset: Offset(0, 2),
-                  )
-                ]),
-            child: TextField(
-              keyboardType: TextInputType.text,
-              style: TextStyle(color: color_font),
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.only(top: 14),
-                  prefixIcon: Icon(
-                    Icons.location_on_outlined,
-                    color: color_font,
-                  ),
-                  hintText: 'Alamat Lengkap',
-                  hintStyle: defaultText.subtitle1
-                      ?.apply(color: Colors.grey.shade500)),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildSimpanButton() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: Container(
-        width: 150,
-        child: RaisedButton(
-          onPressed: () {},
-          elevation: 5,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          color: color_font,
-          padding: EdgeInsets.all(20),
-          child: Text(
-            "Simpan",
-            style: defaultText.headline5?.apply(color: Colors.white),
-          ),
-        ),
-      ),
+      backgroundColor: color_background,
     );
   }
 }
