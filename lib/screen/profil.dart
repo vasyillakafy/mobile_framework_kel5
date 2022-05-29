@@ -1,8 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:flutter/rendering.dart';
 import 'package:sejuta/config/constants.dart';
 import 'package:sejuta/config/palete.dart';
+import 'package:sejuta/screen/bantuan.dart';
+import 'package:sejuta/screen/tentang.dart';
 
 class profil extends StatefulWidget {
   @override
@@ -47,12 +50,36 @@ class _profilState extends State<profil> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(right: 0),
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.settings),
-                        iconSize: 30,
-                        color: color_font,
+                      padding: EdgeInsets.only(bottom: 0.0),
+                      child: popup(
+                        icon: IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.settings),
+                          iconSize: 30.0,
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.only(bottom: 30),
+                          color: color_font,
+                        ),
+                        menuList: [
+                          PopupMenuItem(
+                              value: 0,
+                              child: ListTile(
+                                leading: Icon(CupertinoIcons.question_circle),
+                                title: Text("Bantuan"),
+                              )),
+                          PopupMenuItem(
+                              value: 1,
+                              child: ListTile(
+                                leading: Icon(Icons.info),
+                                title: Text("Tentang"),
+                              )),
+                          PopupMenuItem(
+                              value: 2,
+                              child: ListTile(
+                                leading: Icon(Icons.logout),
+                                title: Text("Logout"),
+                              )),
+                        ],
                       ),
                     ),
                   ],
@@ -257,5 +284,30 @@ class _profilState extends State<profil> {
       ),
       backgroundColor: color_background,
     );
+  }
+}
+
+class popup extends StatelessWidget {
+  final List<PopupMenuEntry> menuList;
+  final Widget? icon;
+
+  const popup({Key? key, required this.menuList, this.icon}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton(
+        itemBuilder: ((context) => menuList),
+        icon: icon,
+        onSelected: (value) {
+          if (value == 0) {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => bantuan()));
+          } else if (value == 1) {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => tentang()));
+          } else {
+            print("logout");
+          }
+        });
   }
 }
