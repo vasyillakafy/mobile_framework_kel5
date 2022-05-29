@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sejuta/config/palete.dart';
 import 'package:sejuta/config/constants.dart';
+import 'package:sejuta/screen/bottom_nav_bar.dart';
 import 'package:sejuta/screen/register.dart';
+import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -11,6 +13,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+
   bool rememberpwd = false;
   bool sec = true;
   var visable = Icon(
@@ -133,20 +138,33 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  Future<void> login() async {
+    if (passwordController.text.isNotEmpty && emailController.text.isNotEmpty) {
+      var response = await http.post(
+          Uri.parse("http://192.168.0.6:8080/api/login"),
+          body: ({
+            'email': emailController.text,
+            'password': passwordController.text
+          }));
+      if (response.statusCode == 200) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => BottomNav()));
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("Invalid")));
+      }
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Blank Field Not Allowed")));
+    }
+  }
+
   Widget buildEmail() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Email",
-            style: TextStyle(
-                color: color_font, fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(
-            height: 10,
-          ),
           Container(
             height: 60,
             alignment: Alignment.centerLeft,
@@ -161,6 +179,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   )
                 ]),
             child: TextField(
+              controller: emailController,
               keyboardType: TextInputType.emailAddress,
               style: TextStyle(color: color_font),
               decoration: InputDecoration(
@@ -185,14 +204,6 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Password",
-            style: TextStyle(
-                color: color_font, fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(
-            height: 10,
-          ),
           Container(
             alignment: Alignment.centerLeft,
             decoration: BoxDecoration(
@@ -205,6 +216,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             height: 60,
             child: TextField(
+              controller: passwordController,
               obscureText: sec,
               style: TextStyle(color: color_font),
               decoration: InputDecoration(
@@ -274,7 +286,9 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Container(
         width: double.infinity,
         child: RaisedButton(
-          onPressed: () {},
+          onPressed: () {
+            login();
+          },
           elevation: 5,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
