@@ -6,6 +6,7 @@ import 'package:sejuta/config/constants.dart';
 import 'dart:async';
 
 import 'package:sejuta/config/palete.dart';
+import 'package:sejuta/screen/detailbarang.dart';
 
 class ListBarangUm extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class ListBarangUm extends StatefulWidget {
 class _ListBarUmState extends State<ListBarangUm> {
   Future<List> getData() async {
     final response =
-        await http.get(Uri.parse('http://192.168.1.7:8000/api/dataBarang'));
+        await http.get(Uri.parse('http://192.168.0.21:8000/api/dataBarang'));
     return json.decode(response.body);
   }
 
@@ -58,12 +59,11 @@ class ItemList extends StatelessWidget {
           color: color_background,
           padding: const EdgeInsets.all(10.0),
           child: new GestureDetector(
-            onTap:
-                () {}, // => Navigator.of(context).push(new MaterialPageRoute(
-            //     builder: (BuildContext context) => new Detail(
-            //           list: list,
-            //           index: i,
-            //         ))), // Detail // MaterialPageRoute
+            onTap: () => Navigator.of(context).push(new MaterialPageRoute(
+                builder: (BuildContext context) => new Detail(
+                      list: list,
+                      index: i,
+                    ))), // Detail // MaterialPageRoute
             child: Card(
               borderOnForeground: true,
               child: Container(
@@ -73,7 +73,7 @@ class ItemList extends StatelessWidget {
                   children: [
                     ClipRRect(
                       child: Image.network(
-                        "http://192.168.1.7:8000/img/" + list[i]["foto"],
+                        "http://192.168.0.21:8000/img/" + list[i]["foto"],
                         fit: BoxFit.cover,
                         height: 150,
                         width: 150,
