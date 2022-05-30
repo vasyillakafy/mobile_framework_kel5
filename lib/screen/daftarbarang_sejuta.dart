@@ -15,7 +15,7 @@ class ListBarangUm extends StatefulWidget {
 class _ListBarUmState extends State<ListBarangUm> {
   Future<List> getData() async {
     final response =
-        await http.get(Uri.parse('http://192.168.0.13:8080/api/dataBarang'));
+        await http.get(Uri.parse('http://192.168.1.7:8000/api/dataBarang'));
     return json.decode(response.body);
   }
 
@@ -73,7 +73,7 @@ class ItemList extends StatelessWidget {
                   children: [
                     ClipRRect(
                       child: Image.network(
-                        "http://192.168.0.13:8080/img/" + list[i]["foto"],
+                        "http://192.168.1.7:8000/img/" + list[i]["foto"],
                         fit: BoxFit.cover,
                         height: 150,
                         width: 150,
@@ -87,7 +87,6 @@ class ItemList extends StatelessWidget {
                       "Kategori: ${list[i]['kategori']['kat']}",
                       style: defaultText.subtitle1,
                     ),
-                  
                   ],
                 ),
               ),

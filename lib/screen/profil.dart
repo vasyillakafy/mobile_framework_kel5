@@ -94,7 +94,7 @@ class _profilState extends State<profil> {
                   width: 100,
                   child: Stack(
                     fit: StackFit.expand,
-                    overflow: Overflow.visible,
+                    // overflow: Overflow.visible,
                     children: [
                       CircleAvatar(
                         backgroundImage: AssetImage("assets/images/profil.png"),

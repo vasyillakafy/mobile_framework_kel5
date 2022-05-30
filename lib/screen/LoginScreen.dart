@@ -141,7 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> login() async {
     if (passwordController.text.isNotEmpty && emailController.text.isNotEmpty) {
       var response = await http.post(
-          Uri.parse("http://192.168.0.6:8080/api/login"),
+          Uri.parse("http://192.168.1.7:8000/api/login"),
           body: ({
             'email': emailController.text,
             'password': passwordController.text
