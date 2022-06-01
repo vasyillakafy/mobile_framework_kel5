@@ -16,10 +16,9 @@ class _registerState extends State<register> {
   TextEditingController c_nama = new TextEditingController();
   TextEditingController c_email = new TextEditingController();
   TextEditingController c_alamat = new TextEditingController();
-  TextEditingController c_nohp = new TextEditingController();
-  TextEditingController c_foto = new TextEditingController();
   TextEditingController c_password = new TextEditingController();
   TextEditingController c_conpassword = new TextEditingController();
+  TextEditingController c_nohp = new TextEditingController();
 
   // String foto = "1.jpg";
   // void register() {
@@ -38,24 +37,28 @@ class _registerState extends State<register> {
   String foto = "1.jpg";
   Future<void> register() async {
     if (c_nama.text.isNotEmpty &&
+        c_alamat.text.isNotEmpty &&
         c_email.text.isNotEmpty &&
         c_password.text.isNotEmpty &&
         c_conpassword.text.isNotEmpty &&
-        c_alamat.text.isNotEmpty) {
+        c_nohp.text.isNotEmpty) {
       var response =
-          await http.post(Uri.parse("http://192.168.1.7:8000/api/register"),
+          await http.post(Uri.parse("http://10.10.3.143:8000/api/register"),
               body: ({
                 'nama': c_nama.text,
-                'alamat': c_alamat.text,
                 'email': c_email.text,
                 'password': c_password.text,
+                'alamat': c_alamat.text,
+                'no_hp': c_nohp.text,
                 'foto': foto
               }));
 
       if (c_password.text == c_conpassword.text) {
         if (response.statusCode == 200) {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => BottomNav()));
+              context, MaterialPageRoute(builder: (context) => LoginScreen()));
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Berhasil Mendaftar")));
         } else {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(
@@ -142,6 +145,10 @@ class _registerState extends State<register> {
                         SizedBox(
                           height: 30,
                         ),
+                        nohp(),
+                        SizedBox(
+                          height: 30,
+                        ),
                         buildRegisterButton(),
                         SizedBox(
                           height: 30,
@@ -221,6 +228,45 @@ class _registerState extends State<register> {
                     color: color_font,
                   ),
                   hintText: 'Masukkan nama lengkap',
+                  hintStyle: defaultText.subtitle1?.apply(color: color_font)),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget nohp() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 60,
+            alignment: Alignment.centerLeft,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: color_font,
+                    blurRadius: 6,
+                    offset: Offset(0, 2),
+                  )
+                ]),
+            child: TextField(
+              controller: c_nohp,
+              keyboardType: TextInputType.number,
+              style: TextStyle(color: color_font),
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.only(top: 14),
+                  prefixIcon: Icon(
+                    Icons.phone,
+                    color: color_font,
+                  ),
+                  hintText: 'Masukkan No. HP Aktif',
                   hintStyle: defaultText.subtitle1?.apply(color: color_font)),
             ),
           ),
