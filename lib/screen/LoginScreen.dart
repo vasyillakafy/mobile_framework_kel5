@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +8,7 @@ import 'package:sejuta/config/constants.dart';
 import 'package:sejuta/screen/bottom_nav_bar.dart';
 import 'package:sejuta/screen/register.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -140,15 +143,45 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> login() async {
     if (passwordController.text.isNotEmpty && emailController.text.isNotEmpty) {
+      //dari anton
+      var jsonData = null;
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+
+      //akhir dari anton
+
       var response = await http.post(
-          Uri.parse("http://192.168.1.7:8000/api/login"),
+          Uri.parse("http://192.168.0.6:8000/api/login"),
           body: ({
             'email': emailController.text,
             'password': passwordController.text
           }));
+
       if (response.statusCode == 200) {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => BottomNav()));
+        jsonData = json.decode(response.body);
+        print(response.body);
+        setState(() {
+          // isLoading = false;
+          sharedPreferences.setString(
+              "token", jsonData['content']['access_token']);
+          sharedPreferences.setInt("id", jsonData['content']['data']['id']);
+          print(jsonData['content']['data']['id']);
+          print(jsonData['content']['data']['id']);
+          print(jsonData['content']['data']['id']);
+          sharedPreferences.setString(
+              "email", jsonData['content']['data']['email']);
+          sharedPreferences.setString(
+              "nama", jsonData['content']['data']['nama']);
+          sharedPreferences.setString(
+              "alamat", jsonData['content']['data']['alamat']);
+          sharedPreferences.setString(
+              "password", jsonData['content']['data']['password']);
+          sharedPreferences.setInt(
+              "no_hp", jsonData['content']['data']['no_hp']);
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (BuildContext context) => BottomNav()),
+              (Route<dynamic> route) => false);
+        });
       } else {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text("Invalid")));
