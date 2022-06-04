@@ -1,11 +1,11 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
+import 'dart:js_util';
 import 'package:flutter/material.dart';
-import 'dart:ui';
-import 'package:flutter/rendering.dart';
-import 'package:sejuta/config/constants.dart';
-import 'package:sejuta/config/palete.dart';
-import 'package:sejuta/screen/bantuan.dart';
-import 'package:sejuta/screen/tentang.dart';
+import 'package:sejuta/screen/editProf.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../config/constants.dart';
+import '../config/palete.dart';
+import 'package:http/http.dart' as http;
 
 class profil extends StatefulWidget {
   @override
@@ -13,6 +13,32 @@ class profil extends StatefulWidget {
 }
 
 class _profilState extends State<profil> {
+  late SharedPreferences sharedPreferences;
+  int id = 0;
+  String nama = "";
+  String email = "";
+  String alamat = "";
+  int no_hp = 0;
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
+  getData() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    if (mounted) {
+      setState(() {
+        id = sharedPreferences.getInt('id')!;
+        nama = sharedPreferences.getString("nama")!;
+        email = sharedPreferences.getString("email")!;
+        no_hp = sharedPreferences.getInt("no_hp")!;
+        alamat = sharedPreferences.getString("alamat")!;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +90,7 @@ class _profilState extends State<profil> {
                           PopupMenuItem(
                               value: 0,
                               child: ListTile(
-                                leading: Icon(CupertinoIcons.question_circle),
+                                leading: Icon(Icons.question_mark_rounded),
                                 title: Text("Bantuan"),
                               )),
                           PopupMenuItem(
@@ -131,77 +157,62 @@ class _profilState extends State<profil> {
                       offset: Offset(0, 2),
                     )
                   ]),
-              child: TextFormField(
-                keyboardType: TextInputType.text,
-                style: TextStyle(color: color_font),
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.only(top: 14),
-                    prefixIcon: Icon(
-                      Icons.account_box_outlined,
-                      color: color_font,
+              child: Row(
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            right: 10.0, left: 10.0, top: 12.5, bottom: 12.5),
+                        child: Icon(Icons.account_box_outlined,
+                            color: color_font, size: 25),
+                      ),
+                    ],
+                  ),
+                  Text.rich(
+                    TextSpan(
+                      text: nama,
+                      style: defaultText.headline6
+                          ?.apply(color: Color.fromRGBO(68, 93, 192, 1.0)),
                     ),
-                    hintText: 'Nama Lengkap',
-                    hintStyle: defaultText.subtitle1
-                        ?.apply(color: Colors.grey.shade500)),
-              ),
-            ),
-            SizedBox(height: 15.0),
-            Container(
-              height: 50,
-              alignment: Alignment.centerLeft,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(5),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.shade300,
-                      blurRadius: 1,
-                      offset: Offset(0, 2),
-                    )
-                  ]),
-              child: TextField(
-                keyboardType: TextInputType.emailAddress,
-                style: TextStyle(color: color_font),
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.only(top: 14),
-                    prefixIcon: Icon(
-                      Icons.email_outlined,
-                      color: color_font,
-                    ),
-                    hintText: 'abcdef@example.com',
-                    hintStyle: defaultText.subtitle1
-                        ?.apply(color: Colors.grey.shade500)),
-              ),
-            ),
-            SizedBox(height: 15.0),
-            Container(
-              alignment: Alignment.centerLeft,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(5),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.grey.shade300,
-                      blurRadius: 1,
-                      offset: Offset(0, 2))
+                  ),
                 ],
               ),
+            ),
+            SizedBox(height: 15.0),
+            Container(
               height: 50,
-              child: TextField(
-                obscureText: true,
-                style: TextStyle(color: color_font),
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.only(top: 14),
-                    prefixIcon: Icon(
-                      Icons.vpn_key,
-                      color: color_font,
+              alignment: Alignment.centerLeft,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(5),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade300,
+                      blurRadius: 1,
+                      offset: Offset(0, 2),
+                    )
+                  ]),
+              child: Row(
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            right: 10.0, left: 10.0, top: 12.5, bottom: 12.5),
+                        child: Icon(Icons.email_outlined,
+                            color: color_font, size: 25),
+                      ),
+                    ],
+                  ),
+                  Text.rich(
+                    TextSpan(
+                      text: email,
+                      style: defaultText.headline6
+                          ?.apply(color: Color.fromRGBO(68, 93, 192, 1.0)),
                     ),
-                    hintText: "Password",
-                    hintStyle: defaultText.subtitle1
-                        ?.apply(color: Colors.grey.shade500)),
+                  ),
+                ],
               ),
             ),
             SizedBox(height: 15.0),
@@ -218,19 +229,25 @@ class _profilState extends State<profil> {
                       offset: Offset(0, 2),
                     )
                   ]),
-              child: TextField(
-                keyboardType: TextInputType.text,
-                style: TextStyle(color: color_font),
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.only(top: 14),
-                    prefixIcon: Icon(
-                      Icons.phone,
-                      color: color_font,
+              child: Row(
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            right: 10.0, left: 10.0, top: 12.5, bottom: 12.5),
+                        child: Icon(Icons.phone, color: color_font, size: 25),
+                      ),
+                    ],
+                  ),
+                  Text.rich(
+                    TextSpan(
+                      text: no_hp.toString(),
+                      style: defaultText.headline6
+                          ?.apply(color: Color.fromRGBO(68, 93, 192, 1.0)),
                     ),
-                    hintText: '08xxxxxxxxx',
-                    hintStyle: defaultText.subtitle1
-                        ?.apply(color: Colors.grey.shade500)),
+                  ),
+                ],
               ),
             ),
             SizedBox(height: 15.0),
@@ -247,26 +264,36 @@ class _profilState extends State<profil> {
                       offset: Offset(0, 2),
                     )
                   ]),
-              child: TextField(
-                keyboardType: TextInputType.text,
-                style: TextStyle(color: color_font),
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.only(top: 14),
-                    prefixIcon: Icon(
-                      Icons.location_on_outlined,
-                      color: color_font,
+              child: Row(
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            right: 10.0, left: 10.0, top: 12.5, bottom: 12.5),
+                        child: Icon(Icons.location_on_outlined,
+                            color: color_font, size: 25),
+                      ),
+                    ],
+                  ),
+                  Text.rich(
+                    TextSpan(
+                      text: alamat,
+                      style: defaultText.headline6
+                          ?.apply(color: Color.fromRGBO(68, 93, 192, 1.0)),
                     ),
-                    hintText: 'Alamat Lengkap',
-                    hintStyle: defaultText.subtitle1
-                        ?.apply(color: Colors.grey.shade500)),
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 25.0),
+            SizedBox(height: 30.0),
             Container(
               width: 150,
               child: RaisedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => editProf()));
+                },
                 elevation: 5,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -274,11 +301,12 @@ class _profilState extends State<profil> {
                 color: color_font,
                 padding: EdgeInsets.all(20),
                 child: Text(
-                  "Simpan",
+                  "Edit Profil",
                   style: defaultText.headline5?.apply(color: Colors.white),
                 ),
               ),
             ),
+            SizedBox(height: 40),
           ],
         ),
       ),
@@ -300,13 +328,22 @@ class popup extends StatelessWidget {
         icon: icon,
         onSelected: (value) {
           if (value == 0) {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => bantuan()));
+            // Navigator.push(
+            //     context, MaterialPageRoute(builder: (context) => bantuan()));
+            // ScaffoldMessenger.of(context)
+            //     .showSnackBar(SnackBar(content: Text("Bantuan")));
+            // new InkWell(
+            //     child: new Text('Open Browser'),
+            //     onTap: () => UrlLauncher.launch(
+            //         'https://docs.flutter.io/flutter/services/UrlLauncher-class.html'));
           } else if (value == 1) {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => tentang()));
+            // Navigator.push(
+            //     context, MaterialPageRoute(builder: (context) => tentang()));
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text("Tentang")));
           } else {
-            print("logout");
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text("Logout")));
           }
         });
   }
