@@ -4,11 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:sejuta/config/constants.dart';
 import 'package:sejuta/config/palete.dart';
-import 'package:sejuta/screen/daftarbarang_sejuta.dart';
+import 'package:sejuta/main.dart';
+import 'package:sejuta/screen/LoginScreen.dart';
 import 'package:http/http.dart' as http;
+import 'package:sejuta/screen/daftarbarang_sejuta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class beranda extends StatefulWidget {
+  // String token = "";
+
   @override
   State<beranda> createState() => _berandaState();
 }
@@ -38,7 +42,7 @@ class _berandaState extends State<beranda> {
       });
     }
   }
-
+  
   final String url = "http://192.168.0.9/api/sedang_login";
   List? data;
 
@@ -58,12 +62,6 @@ class _berandaState extends State<beranda> {
       data = convertToDataJson['data'];
     });
   }
-
-  // Future<List> getData() async {
-  //   final response =
-  //       await http.get(Uri.parse('http://192.168.:8000/api/sedang_login'));
-  //   return json.decode(response.body);
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -100,9 +98,10 @@ class _berandaState extends State<beranda> {
 
             Text.rich(
               TextSpan(
-                text: nama + id.toString(),
-                // text: 'Halo, ${data!["data"]["id"].toString()}',
-                style: defaultText.headline5?.apply(color: color_font),
+
+
+                text: "Halo,  " + nama.toString(),
+                style: defaultText.headline4?.apply(color: color_font),
               ),
             ),
             SizedBox(height: 7),
