@@ -1,10 +1,12 @@
+import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:sejuta/config/constants.dart';
 import 'package:sejuta/config/palete.dart';
 import 'package:sejuta/screen/daftarbarang_sejuta.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class beranda extends StatefulWidget {
   @override
@@ -12,6 +14,57 @@ class beranda extends StatefulWidget {
 }
 
 class _berandaState extends State<beranda> {
+  late SharedPreferences sharedPreferences;
+  int id = 0;
+  String nama = "";
+  String email = "";
+  @override
+  void initState() {
+    getData();
+    // checkLoginStatus();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  getData() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    if (mounted) {
+      setState(() {
+        nama = sharedPreferences.getString("nama")!;
+        // id = sharedPreferences.getInt(id)!;
+        id = sharedPreferences.getInt('id')!;
+
+        email = sharedPreferences.getString("email")!;
+      });
+    }
+  }
+
+  final String url = "http://192.168.0.9/api/sedang_login";
+  List? data;
+
+  Future<void> _getRefreshData() async {
+    this.getJsonData(context);
+  }
+
+  Future<void> getJsonData(BuildContext context) async {
+    String access_token = '';
+    var response = await http.get(Uri.parse(url), headers: {
+      "Accept": "aplication/json",
+      "Authorization": "Bearer ${access_token}"
+    });
+    print(response.body);
+    setState(() {
+      var convertToDataJson = jsonDecode(response.body);
+      data = convertToDataJson['data'];
+    });
+  }
+
+  // Future<List> getData() async {
+  //   final response =
+  //       await http.get(Uri.parse('http://192.168.:8000/api/sedang_login'));
+  //   return json.decode(response.body);
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,10 +97,12 @@ class _berandaState extends State<beranda> {
               ],
             ),
             SizedBox(height: 30),
+
             Text.rich(
               TextSpan(
-                text: 'Halo, Fafa',
-                style: defaultText.headline4?.apply(color: color_font),
+                text: nama + id.toString(),
+                // text: 'Halo, ${data!["data"]["id"].toString()}',
+                style: defaultText.headline5?.apply(color: color_font),
               ),
             ),
             SizedBox(height: 7),
@@ -72,7 +127,6 @@ class _berandaState extends State<beranda> {
                 ),
                 hintText: "Ketik Untuk Mencari",
                 hintStyle: defaultText.headline6?.apply(color: color_font),
-                
               ),
             ),
             SizedBox(height: 25),

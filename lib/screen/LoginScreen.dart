@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sejuta/config/palete.dart';
 import 'package:sejuta/config/constants.dart';
+import 'package:sejuta/screen/beranda.dart';
 import 'package:sejuta/screen/bottom_nav_bar.dart';
 import 'package:sejuta/screen/register.dart';
 import 'package:http/http.dart' as http;
@@ -143,21 +144,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> login() async {
     if (passwordController.text.isNotEmpty && emailController.text.isNotEmpty) {
-      //dari anton
       var jsonData = null;
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
-
-      //akhir dari anton
-
       var response = await http.post(
-          Uri.parse("http://192.168.0.6:8000/api/login"),
+          Uri.parse("http://192.168.0.9:8000/api/login"),
           body: ({
             'email': emailController.text,
             'password': passwordController.text
           }));
-
       if (response.statusCode == 200) {
+        // get access token
         jsonData = json.decode(response.body);
         print(response.body);
         setState(() {
@@ -172,10 +169,6 @@ class _LoginScreenState extends State<LoginScreen> {
               "email", jsonData['content']['data']['email']);
           sharedPreferences.setString(
               "nama", jsonData['content']['data']['nama']);
-          sharedPreferences.setString(
-              "alamat", jsonData['content']['data']['alamat']);
-          sharedPreferences.setString(
-              "password", jsonData['content']['data']['password']);
           sharedPreferences.setInt(
               "no_hp", jsonData['content']['data']['no_hp']);
           Navigator.of(context).pushAndRemoveUntil(

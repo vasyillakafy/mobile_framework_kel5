@@ -43,7 +43,7 @@ class _registerState extends State<register> {
         c_conpassword.text.isNotEmpty &&
         c_nohp.text.isNotEmpty) {
       var response =
-          await http.post(Uri.parse("http://10.10.3.143:8000/api/register"),
+          await http.post(Uri.parse("http://192.168.0.9:8000/api/register"),
               body: ({
                 'nama': c_nama.text,
                 'email': c_email.text,

@@ -16,7 +16,7 @@ class ListBarangUm extends StatefulWidget {
 class _ListBarUmState extends State<ListBarangUm> {
   Future<List> getData() async {
     final response =
-        await http.get(Uri.parse('http://192.168.0.21:8000/api/dataBarang'));
+        await http.get(Uri.parse('http://192.168.0.9:8000/api/dataBarang'));
     return json.decode(response.body);
   }
 
@@ -60,7 +60,7 @@ class ItemList extends StatelessWidget {
           padding: const EdgeInsets.all(10.0),
           child: new GestureDetector(
             onTap: () => Navigator.of(context).push(new MaterialPageRoute(
-                builder: (BuildContext context) => new Detail(
+                builder: (BuildContext context) => new DetailL(
                       list: list,
                       index: i,
                     ))), // Detail // MaterialPageRoute
@@ -73,7 +73,7 @@ class ItemList extends StatelessWidget {
                   children: [
                     ClipRRect(
                       child: Image.network(
-                        "http://192.168.0.21:8000/img/" + list[i]["foto"],
+                        "http://192.168.0.9:8000/img/" + list[i]["foto"],
                         fit: BoxFit.cover,
                         height: 150,
                         width: 150,

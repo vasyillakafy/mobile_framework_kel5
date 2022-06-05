@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 TextTheme defaultText = TextTheme(
   headline1: GoogleFonts.poppins(
       fontWeight: FontWeight.bold, fontSize: 32, color: color_font),
-  headline2: GoogleFonts.audiowide(
+  headline2: GoogleFonts.poppins(
       fontWeight: FontWeight.normal, fontSize: 33, color: color_font),
   headline3: GoogleFonts.inter(
       fontWeight: FontWeight.bold, fontSize: 20, color: color_font),
@@ -40,6 +40,8 @@ class MyStyle {
     fontWeight: FontWeight.normal,
   );
 
+  static TextStyle nwText =
+      TextStyle(color: color_font, fontSize: 12, fontWeight: FontWeight.normal);
   static TextStyle textParagraphBlack = TextStyle(
     color: Colors.black,
     fontSize: 12,
