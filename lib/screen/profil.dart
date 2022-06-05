@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:js_util';
 import 'package:flutter/material.dart';
 import 'package:sejuta/screen/editProf.dart';
+import 'package:sejuta/screen/tentang.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config/constants.dart';
 import '../config/palete.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 
 class profil extends StatefulWidget {
@@ -88,19 +90,22 @@ class _profilState extends State<profil> {
                         ),
                         menuList: [
                           PopupMenuItem(
-                              value: 0,
                               child: ListTile(
-                                leading: Icon(Icons.question_mark_rounded),
-                                title: Text("Bantuan"),
-                              )),
+                            leading: Icon(Icons.question_mark_rounded),
+                            title: Text("Bantuan"),
+                            onTap: () {
+                              _launchURL2(
+                                  no_hp, 'Ingin tanya-tanya tentang baju?');
+                            },
+                          )),
                           PopupMenuItem(
-                              value: 1,
+                              value: 0,
                               child: ListTile(
                                 leading: Icon(Icons.info),
                                 title: Text("Tentang"),
                               )),
                           PopupMenuItem(
-                              value: 2,
+                              value: 1,
                               child: ListTile(
                                 leading: Icon(Icons.logout),
                                 title: Text("Logout"),
@@ -328,23 +333,30 @@ class popup extends StatelessWidget {
         icon: icon,
         onSelected: (value) {
           if (value == 0) {
-            // Navigator.push(
-            //     context, MaterialPageRoute(builder: (context) => bantuan()));
-            // ScaffoldMessenger.of(context)
-            //     .showSnackBar(SnackBar(content: Text("Bantuan")));
-            // new InkWell(
-            //     child: new Text('Open Browser'),
-            //     onTap: () => UrlLauncher.launch(
-            //         'https://docs.flutter.io/flutter/services/UrlLauncher-class.html'));
-          } else if (value == 1) {
-            // Navigator.push(
-            //     context, MaterialPageRoute(builder: (context) => tentang()));
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text("Tentang")));
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => tentang()));
           } else {
             ScaffoldMessenger.of(context)
                 .showSnackBar(SnackBar(content: Text("Logout")));
           }
         });
+  }
+}
+
+_launchURL() async {
+  const url = 'http://www.google.com/';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Tidak dapat membuka tautan $url';
+  }
+}
+
+_launchURL2(int no_hp, String pesan) async {
+  final url = 'https://wa.me/$no_hp?text=${Uri.parse(pesan)}';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Tidak dapat membuka tautan $url';
   }
 }

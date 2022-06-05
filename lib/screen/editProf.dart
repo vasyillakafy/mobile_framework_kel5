@@ -35,7 +35,7 @@ class _editProfState extends State<editProf> {
         controllerNohp.text.isNotEmpty &&
         controllerAlamat.text.isNotEmpty) {
       final response = await http.post(
-          Uri.parse("http://192.168.0.9:8000/api/dataUser/" + id.toString()),
+          Uri.parse("http://192.168.0.6:8000/api/dataUser/" + id.toString()),
           headers: {
             'Accept': 'application/json',
           },
