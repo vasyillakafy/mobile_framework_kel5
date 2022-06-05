@@ -169,6 +169,10 @@ class _LoginScreenState extends State<LoginScreen> {
               "email", jsonData['content']['data']['email']);
           sharedPreferences.setString(
               "nama", jsonData['content']['data']['nama']);
+          sharedPreferences.setString(
+              "alamat", jsonData['content']['data']['alamat']);
+          sharedPreferences.setString(
+              "password", jsonData['content']['data']['password']);
           sharedPreferences.setInt(
               "no_hp", jsonData['content']['data']['no_hp']);
           Navigator.of(context).pushAndRemoveUntil(
