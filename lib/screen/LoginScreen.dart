@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sejuta/config/palete.dart';
 import 'package:sejuta/config/constants.dart';
-import 'package:sejuta/screen/beranda.dart';
 import 'package:sejuta/screen/bottom_nav_bar.dart';
 import 'package:sejuta/screen/register.dart';
 import 'package:http/http.dart' as http;
@@ -147,14 +146,15 @@ class _LoginScreenState extends State<LoginScreen> {
       var jsonData = null;
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
+
       var response = await http.post(
-          Uri.parse("http://192.168.0.9:8000/api/login"),
+          Uri.parse("http://192.168.0.4:8000/api/login"),
           body: ({
             'email': emailController.text,
             'password': passwordController.text
           }));
+
       if (response.statusCode == 200) {
-        // get access token
         jsonData = json.decode(response.body);
         print(response.body);
         setState(() {
@@ -162,8 +162,6 @@ class _LoginScreenState extends State<LoginScreen> {
           sharedPreferences.setString(
               "token", jsonData['content']['access_token']);
           sharedPreferences.setInt("id", jsonData['content']['data']['id']);
-          print(jsonData['content']['data']['id']);
-          print(jsonData['content']['data']['id']);
           print(jsonData['content']['data']['id']);
           sharedPreferences.setString(
               "email", jsonData['content']['data']['email']);
@@ -175,6 +173,8 @@ class _LoginScreenState extends State<LoginScreen> {
               "password", jsonData['content']['data']['password']);
           sharedPreferences.setInt(
               "no_hp", jsonData['content']['data']['no_hp']);
+          sharedPreferences.setString(
+              "foto", jsonData['content']['data']['foto']);
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (BuildContext context) => BottomNav()),
               (Route<dynamic> route) => false);
@@ -219,7 +219,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Icons.email,
                     color: color_font,
                   ),
-                  hintText: 'Masukkan email/no telepon',
+                  hintText: 'Masukkan email',
                   hintStyle: defaultText.subtitle1?.apply(color: color_font)),
             ),
           ),
@@ -272,43 +272,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-
-  // Widget buildRememberassword() {
-  //   return Container(
-  //     height: 20,
-  //     child: Row(
-  //       children: [
-  //         Theme(
-  //             data: ThemeData(unselectedWidgetColor: Colors.white),
-  //             child: Checkbox(
-  //               value: rememberpwd,
-  //               checkColor: Colors.blueGrey,
-  //               activeColor: Colors.white,
-  //               onChanged: (value) {
-  //                 setState(() {
-  //                   //   rememberpwd=value;
-  //                 });
-  //               },
-  //             )),
-  //         Text(
-  //           "Remember me",
-  //           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  // Widget buildForgetPassword() {
-  //   return Container(
-  //     alignment: Alignment.centerRight,
-  //     child: TextButton(
-  //       child: Text("Forget Password !",
-  //           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
-  //       onPressed: () {},
-  //     ),
-  //   );
-  // }
 
   Widget buildLoginButton() {
     return Padding(

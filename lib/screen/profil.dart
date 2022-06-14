@@ -20,6 +20,7 @@ class _profilState extends State<profil> {
   String nama = "";
   String email = "";
   String alamat = "";
+  String foto = "";
   int no_hp = 0;
 
   @override
@@ -37,6 +38,7 @@ class _profilState extends State<profil> {
         email = sharedPreferences.getString("email")!;
         no_hp = sharedPreferences.getInt("no_hp")!;
         alamat = sharedPreferences.getString("alamat")!;
+        foto = sharedPreferences.getString("foto")!;
       });
     }
   }
@@ -94,8 +96,7 @@ class _profilState extends State<profil> {
                             leading: Icon(Icons.question_mark_rounded),
                             title: Text("Bantuan"),
                             onTap: () {
-                              _launchURL2(
-                                  no_hp, 'Ingin tanya-tanya tentang baju?');
+                              _launchURL();
                             },
                           )),
                           PopupMenuItem(
@@ -128,7 +129,10 @@ class _profilState extends State<profil> {
                     // overflow: Overflow.visible,
                     children: [
                       CircleAvatar(
-                        backgroundImage: AssetImage("assets/images/profil.png"),
+                        child: ClipRect(
+                          child: Image.network(
+                              "http://192.168.0.4:8000/img/${foto}"),
+                        ),
                       ),
                       Positioned(
                         right: -30,
@@ -352,11 +356,11 @@ _launchURL() async {
   }
 }
 
-_launchURL2(int no_hp, String pesan) async {
-  final url = 'https://wa.me/$no_hp?text=${Uri.parse(pesan)}';
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Tidak dapat membuka tautan $url';
-  }
-}
+// _launchURL2(int no_hp, String pesan) async {
+//   final url = 'https://wa.me/$no_hp?text=${Uri.parse(pesan)}';
+//   if (await canLaunch(url)) {
+//     await launch(url);
+//   } else {
+//     throw 'Tidak dapat membuka tautan $url';
+//   }
+// }

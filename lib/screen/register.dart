@@ -43,7 +43,7 @@ class _registerState extends State<register> {
         c_conpassword.text.isNotEmpty &&
         c_nohp.text.isNotEmpty) {
       var response =
-          await http.post(Uri.parse("http://192.168.0.9:8000/api/register"),
+          await http.post(Uri.parse("http://192.168.0.4:8000/api/register"),
               body: ({
                 'nama': c_nama.text,
                 'email': c_email.text,
@@ -62,7 +62,7 @@ class _registerState extends State<register> {
         } else {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(
-                  "Pastikan email dan password sudah terisi dengan benar")));
+                  "Pastikan email dan password (min 8 char) terisi dengan benar")));
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -139,7 +139,14 @@ class _registerState extends State<register> {
                         ),
                         buildPassword(),
                         SizedBox(
-                          height: 30,
+                          height: 8,
+                        ),
+                        Text.rich(TextSpan(
+                            text:
+                                "*Min 8 karakter(meliputi huruf kapital dan angka)",
+                            style: TextStyle(color: color_red))),
+                        SizedBox(
+                          height: 15,
                         ),
                         buildConfirmPassword(),
                         SizedBox(
